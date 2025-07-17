@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>悠悠资源站</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-container {
+            margin: 30px auto;
+            max-width: 600px;
+            position: relative;
+        }
+
+        #search {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            box-shadow: var(--box-shadow);
+            padding-left: 50px;
+            transition: var(--transition);
+        }
+
+        #search:focus {
+            outline: none;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .category-btn {
+            padding: 8px 16px;
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .resource-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .resource-card .logo-container {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .resource-card .logo-container img {
+            max-height: 80px;
+            max-width: 80%;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .resource-card:hover .logo-container img {
+            transform: scale(1.05);
+        }
+
+        .resource-card .info {
+            padding: 20px;
+        }
+
+        .resource-card h3 {
+            margin-bottom: 10px;
+            color: var(--dark-color);
+            font-size: 1.2rem;
+        }
+
+        .resource-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .resource-card .visit-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .resource-card .visit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .resource-card .category-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #666;
+            font-size: 0.9rem;
+            background-color: white;
+            margin-top: 50px;
+        }
+
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 50px;
+            color: #666;
+        }
+
+        /* 侧边栏样式 */
+        .author-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+
+        .author-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 3px solid var(--accent-color);
+        }
+
+        .author-card h3 {
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .author-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            color: var(--dark-color);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .side-widget {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .side-widget h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: var(--dark-color);
+        }
+
+        .popular-resources {
+            list-style: none;
+        }
+
+        .popular-resources li {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .popular-resources a {
+            color: #555;
+            text-decoration: none;
+            transition: var(--transition);
+            display: block;
+        }
+
+        .popular-resources a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                order: 2;
+            }
+            
+            .content {
+                order: 1;
+            }
+            
+            .author-card, .side-widget {
+                display: inline-block;
+                width: calc(50% - 10px);
+                vertical-align: top;
+                margin-right: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .resources-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .author-card, .side-widget {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+
+        /* 加载动画 */
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            grid-column: 1 / -1;
+        }
+
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 99;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="author-card">
+                <img src="./img/main.jpg" alt="作者头像" class="author-avatar">
+                <h3>我是UU吖</h3>
+                <p>英文昵称：UUplayer</br>人称：悠悠普雷也</p>
+                <div class="social-links">
+                    <a href="https://github.com/uuplayer123" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="./tiktok.html" title="抖音"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://space.bilibili.com/2038640283" title="B站"><i class="fab fa-bilibili"></i></a>
+                </div>
+            </div>
+            
+            <div class="side-widget">
+                <h3><i class="fas fa-fire"></i> 热门资源</h3>
+                <ul class="popular-resources" id="popular-resources">
+                    <!-- 热门资源将通过JS动态生成 -->
+                </ul>
+            </div>
+            
+            <div class="side-widget">
+                <h3><i class="fas fa-info-circle"></i> 关于本站</h3>
+                <p>本站收集整理互联网上各类优质资源，所有资源均经过人工筛选，确保质量可靠。</p>
+                <p>如果您有好的资源推荐，欢迎通过邮箱联系我们。</p>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="content">
+            <div class="container">
+                <header>
+                    <h1>悠悠资源站</h1>
+                    <p>这里作者整合了网上的一些有趣有用的资源。</p>
+                </header>
+
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search" placeholder="搜索资源名称、描述或分类...">
+                </div>
+
+                <div class="categories">
+                    <button class="category-btn active" data-category="all">全部</button>
+                    <!-- 分类按钮将通过JS动态生成 -->
+                </div>
+
+                <div class="resources-grid" id="resources-container">
+                    <!-- 资源卡片将通过JS动态生成 -->
+                    <div class="loader">
+                        <div class="loader-spinner"></div>
+                        <p>正在加载资源...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2025 悠悠资源站  |  作者联系方式 b站 我是UU吖  私信</p>
+    </footer>
+
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // 内嵌的JSON数据
+        const resourcesData = {
+    "resources": [
+        {
+            "name": "Github",
+            "url": "https://github.com/",
+            "description": "全球最大的开源代码托管平台",
+            "category": "代码技术",
+            "logoPath": "https://github.githubassets.com/favicons/favicon.png",
+            "popular": true
+        },
+        {
+            "name": "MDN Web Docs",
+            "url": "https://developer.mozilla.org/",
+            "description": "Mozilla 提供的权威 Web 开发文档",
+            "category": "代码技术",
+            "logoPath": "./img/mdn-web-docx.PNG",
+            "popular": true
+        },
+        {
+            "name": "W3Schools",
+            "url": "https://www.w3schools.com/",
+            "description": "基础 Web 开发教程HTML/CSS/JS/SQL",
+            "category": "代码技术",
+            "logoPath": "https://www.w3schools.com/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "Web模板网",
+            "url": "https://www.mobanwang.com/",
+            "description": "这里存有海量静态网站设计模板",
+            "category": "代码技术",
+            "logoPath": "https://www.mobanwang.com/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "CSDN",
+            "url": "https://csdn.net/",
+            "description": "专业开发者社区",
+            "category": "代码技术",
+            "logoPath": "https://csdn.net/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "Gitee",
+            "url": "https://gitee.com/explore",
+            "description": "国内版的Github",
+            "category": "代码技术",
+            "logoPath": "https://gitee.com/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "SourceForge",
+            "url": "https://sourceforge.net/",
+            "description": "老牌开源项目托管网站",
+            "category": "代码技术",
+            "logoPath": "https://sourceforge.net/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "洛谷",
+            "url": "https://www.luogu.com.cn/",
+            "description": " 热门编程算法训练评测平台",
+            "category": "代码技术",
+            "logoPath": "https://www.luogu.com.cn/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "LeetCode力扣",
+            "url": "https://leetcode.cn/ ",
+            "description": "含可视化智能的编程算法测评平台",
+            "category": "代码技术",
+            "logoPath": "https://leetcode.cn/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "Codeforces",
+            "url": "https://codeforces.com/",
+            "description": "竞赛编程算法训练测评平台（外国）",
+            "category": "代码技术",
+            "logoPath": "./img/codeforces.png",
+            "popular": true
+        },
+        {
+            "name": "codecademy",
+            "url": "https://www.codecademy.com/",
+            "description": "交互式编程学习平台",
+            "category": "代码技术",
+            "logoPath": "https://www.codecademy.com/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "菜鸟教程",
+            "url": "https://www.runoob.com/",
+            "description": "各编程语言免费教学网站",
+            "category": "代码技术",
+            "logoPath": "https://www.runoob.com/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "Stack Overflow",
+            "url": "https://stackoverflow.com/",
+            "description": "全球最大技术问答社区",
+            "category": "代码技术",
+            "logoPath": "https://stackoverflow.com/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "FreeCodeCamp",
+            "url": "https://www.freecodecamp.org/",
+            "description": "免费编程学习平台",
+            "category": "代码技术",
+            "logoPath": "./img/freecodecamp.jpg",
+            "popular": true
+        },
+        {
+            "name": "HackerRank",
+            "url": "https://www.hackerrank.com/",
+            "description": "编程练习与面试平台",
+            "category": "代码技术",
+            "logoPath": "./img/hackerrank.jpg",
+            "popular": true
+        },
+        {
+            "name": "可画",
+            "url": "https://www.canva.cn/",
+            "description": "在线多人协作剪辑平台",
+            "category": "工具资源",
+            "logoPath": "https://www.canva.cn/favicon.ico",
+            "popular": true
+        },
+        {
+            "name": "在线表格",
+            "url": "https://www.tablesgenerator.com/markdown",
+            "description": "在线Markdown表格生成",
+            "category": "工具资源",
+            "logoPath": "./img/tables.png",
+            "popular": true
+        },
+        {
+            "name": "百度脑图",
+            "url": "https://naotu.baidu.com/",
+            "description": "在线思维导图制作",
+            "category": "工具资源",
+            "logoPath": "./img/naotu.png",
+            "popular": true
+        },
+        {
+            "name": "在线PDF转Word",
+            "url": "https://www.pdf2doc.com/",
+            "description": "PDF转Word工具",
+            "category": "工具资源",
+            "logoPath": "./img/pdftodoc.png",
+            "popular": true
+        },
+        {
+            "name": "在线音频剪辑",
+            "url": "https://mp3cut.net/cn/",
+            "description": "在线音频编辑",
+            "category": "工具资源",
+            "logoPath": "./img/mp3cut.png",
+            "popular": true
+        },
+        {
+            "name": "在线配色",
+            "url": "https://www.colorhunt.co",
+            "description": "配色灵感工具",
+            "category": "工具资源",
+            "logoPath": "./img/color-hunt-og.png",
+            "popular": true
+        },
+        {
+            "name": "FFmpeg",
+            "url": "https://ffmpeg.org/",
+            "description": "使用最广泛的开源命令行视频处理工具",
+            "category": "工具资源",
+            "logoPath": "./img/ffmpeg.png",
+            "popular": true
+        },
+        {
+            "name": "在线PS",
+            "url": "https://www.uupoop.com/",
+            "description": " 在线图片编辑工具",
+            "category": "工具资源",
+            "logoPath": "./img/onlineps.png",
+            "popular": true
+        },
+        {
+            "name": "ProcessOn",
+            "url": "https://www.processon.com/",
+            "description": "在线流程图、思维导图工具",
+            "category": "工具资源",
+            "logoPath": "./img/processon.png",
+            "popular": true
+        },
+        {
+            "name": "TinyPNG",
+            "url": "https://tinypng.com/",
+            "description": "在线图片压缩工具",
+            "category": "工具资源",
+            "logoPath": "https://tinypng.com/static/images/tinify-logo.svg",
+            "popular": true
+        },
+        {
+            "name": "PDF24 Tools",
+            "url": "https://tools.pdf24.org/zh/",
+            "description": "在线PDF处理工具",
+            "category": "工具资源",
+            "logoPath": "./img/24pdf.png",
+            "popular": true
+        },
+        {
+            "name": "草料二维码",
+            "url": "https://cli.im/",
+            "description": "在线二维码生成工具",
+            "category": "工具资源",
+            "logoPath": "https://static.clewm.net/cli/images/cli_logo_new.png",
+            "popular": true
+        },
+        {
+            "name": "Smallpdf",
+            "url": "https://smallpdf.com/cn",
+            "description": "在线PDF工具箱",
+            "category": "工具资源",
+            "logoPath": "https://s.smallpdf.com/static/bd7581cc63cf9d0b.svg",
+            "popular": true
+        },
+        {
+            "name": "ILoveIMG",
+            "url": "https://www.iloveimg.com/zh-cn",
+            "description": "在线图片处理工具",
+            "category": "工具资源",
+            "logoPath": "https://www.iloveimg.com/img/iloveimg.svg",
+            "popular": true
+        },
+        {
+            "name": "Chrome插件屋",
+            "url": "https://chromewu.com/",
+            "description": "每个Chrome插件站长手工亲测好用",
+            "category": "工具资源",
+            "logoPath": "./img/chrome.png",
+            "popular": true
+        },
+        {
+            "name": "CRX4插件网",
+            "url": "https://www.crx4chrome.com/",
+            "description": "存有海量chrome插件  国外",
+            "category": "工具资源",
+            "logoPath": "https://s.crx4chrome.com/logo.webp",
+            "popular": true
+        },
+        {
+            "name": "精简插件网",
+            "url": "https://chrome.zzzmh.cn/#/index",
+            "description": " 精选了优质好用的chrome插件的镜像站，无需加速器，秒访问。",
+            "category": "工具资源",
+            "logoPath": "https://chrome.zzzmh.cn/public/img/title_200.jpg",
+            "popular": true
+        },
+        {
+            "name": "蓝奏云网盘",
+            "url": "https://pc.woozooo.com/",
+            "description": "下载资源无需客户端及登录，便捷实用。",
+            "category": "工具资源",
+            "logoPath": "./img/lanzouyun.png",
+            "popular": true
+        },
+        {
+            "name": "歌曲宝",
+            "url": "https://www.gequbao.com/",
+            "description": "破解版音乐资源完全免费下载",
+            "category": "工具资源",
+            "logoPath": "https://www.gequbao.com/static/img/logo.png",
+            "popular": true
+        },
+        {
+            "name": "SnapAny视频下载器",
+            "url": "https://snapany.com/zh/bilibili",
+            "description": "支持Tiktok、Youtube、bilibili、Facebook、Pinterest、Suno、Threads、VK平台的视频免费下载",
+            "category": "工具资源",
+            "logoPath": "./img/snapany.png",
+            "popular": true
+        },
+        {
+            "name": "VIP视频免费观看",
+            "url": "https://wannengrun.net/zh/",
+            "description": "只需要按照网站要求的命令搜索即可免费观看各种VIP电影",
+            "category": "工具资源",
+            "logoPath": "./img/wanneng.png",
+            "popular": true
+        },
+        {
+            "name": "Rutracker",
+            "url": "https://rutracker.org/",
+            "description": "俄罗斯破解资源网站，存有各类型包括游戏、影视、应用工具等资源的破解版本。",
+            "category": "工具资源",
+            "logoPath": "https://ts3.tc.mm.bing.net/th/id/OIP-C.w5MSVQGh0mzUJ22iSBev6QHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+            "popular": true
+        },
+        {
+            "name": "考拉网",
+            "url": "https://www.rjctx.com/",
+            "description": "涵盖了电脑操作系统、常用办公软件、开发编程等软件资源免费下载。",
+            "category": "工具资源",
+            "logoPath": "https://www.rjctx.com/wp-content/uploads/2022/04/cropped-%E5%AE%8C%E6%88%902.jpg",
+            "popular": true
+        },
+        {
+            "name": "DeepL翻译",
+            "url": "https://www.deepl.com/",
+            "description": "智能好用的在线翻译网站",
+            "category": "工具资源",
+            "logoPath": "https://www.deepl.com/img/logo/deepl-logo-text-blue.svg",
+            "popular": true
+        },
+        {
+            "name": "BiliBili",
+            "url": "https://www.bilibili.com/",
+            "description": " B站内有很多实用的工具视频可用于学习.",
+            "category": "工具资源",
+            "logoPath": "https://tse3-mm.cn.bing.net/th/id/OIP-C.d3YP_TUqRSxOZ-a_M0CZFgHaFj?w=229&h=180&c=7&r=0&o=7&pid=1.7&rm=3",
+            "popular": true
+        },
+        {
+            "name": "Remove",
+            "url": "https://www.remove.bg/",
+            "description": "在线抠图软件",
+            "category": "工具资源",
+            "logoPath": "./img/remove.png",
+            "popular": true
+        },
+        {
+            "name": "UU在线工具",
+            "url": "https://uutool.cn",
+            "description": "存有超多便捷实用工具的导航网站",
+            "category": "工具资源",
+            "logoPath": "https://uutool.cn/assets/images/favicon.png",
+            "popular": true
+        },
+        {
+            "name": "docsmall",
+            "url": "https://docsmall.com/",
+            "description": "这里可以对图片和PDF文件进行在线免费处理",
+            "category": "工具资源",
+            "logoPath": "https://docsmall.com/_nuxt/logo.V3psVrNV.png",
+            "popular": true
+        },
+        {
+            "name": "密码强度检测",
+            "url": "https://www.passwordmonster.com/",
+            "description": "可以检测密码强度，保障账户安全",
+            "category": "工具资源",
+            "logoPath": "./img/password.png",
+            "popular": true
+        },
+        {
+            "name": "表情包在线制作",
+            "url": "https://www.doutub.com/",
+            "description": "这里可以免费制作热门表情包",
+            "category": "工具资源",
+            "logoPath": "./img/emo.png",
+            "popular": true
+        },
+        {
+            "name": "今天吃啥",
+            "url": "https://cuijiahua.com/eat/",
+            "description": "想不到今天吃啥可以用这个网站",
+            "category": "工具资源",
+            "logoPath": "./img/eat.png",
+            "popular": true
+        },
+        {
+            "name": "高铁查",
+            "url": "https://www.lazyplan.com/",
+            "description": "查高铁",
+            "category": "工具资源",
+            "logoPath": "./img/gaotie.png",
+            "popular": true
+        },
+        {
+            "name": "CDKM格式转换器",
+            "url": "https://cdkm.com/cn/#google_vignette",
+            "description": "支持各种类型的格式转换",
+            "category": "工具资源",
+            "logoPath": "./img/CDKM.png",
+            "popular": true
+        },
+        {
+            "name": "FreeConvert格式转换器",
+            "url": "https://www.freeconvert.com/",
+            "description": "支持各种类型的格式转换",
+            "category": "工具资源",
+            "logoPath": "https://cdn.freeconvert.com/logo_theme.svg",
+            "popular": true
+        },
+        {
+            "name": "网名生成器",
+            "url": "https://www.qmsjmfb.com/ ",
+            "description": "在线网名生成器",
+            "category": "工具资源",
+            "logoPath": "./img/name.png",
+            "popular": true
+        },
+        {
+            "name": "爱给网",
+            "url": "https://www.aigei.com/",
+            "description": "海量资源",
+            "category": "素材灵感",
+            "logoPath": "https://cdn-sqn.aigei.com/assets/site/img/logo/text/publish/logo-1_0.png",
+            "popular": true
+        },
+        {
+            "name": "快图网",
+            "url": "http://www.kuaipng.com/",
+            "description": "图片资源",
+            "category": "素材灵感",
+            "logoPath": "./img/kuaitu.png",
+            "popular": true
+        },
+        {
+            "name": "熊猫办公",
+            "url": "https://www.tukuppt.com/",
+            "description": "海量资源",
+            "category": "素材灵感",
+            "logoPath": "./img/panda.png",
+            "popular": true
+        },
+        {
+            "name": "菜鸟图库",
+            "url": "https://www.sucai999.com/?v=NTYxMjky",
+            "description": "纯免费图片素材网站",
+            "category": "素材灵感",
+            "logoPath": "https://t.sucai999.com/bootstrap/images/newlogo.png",
+            "popular": true
+        },
+        {
+            "name": "Pexels",
+            "url": "https://www.pexels.com/",
+            "description": "免费图片、视频素材",
+            "category": "素材灵感",
+            "logoPath": "./img/pexels.png",
+            "popular": true
+        },
+        {
+            "name": "第一PPT网 ",
+            "url": "https://www.1ppt.com/",
+            "description": "PPT资源、字体资源、音效资源纯免费，作者推荐",
+            "category": "素材灵感",
+            "logoPath": "https://js.1ppt.com/logo.gif",
+            "popular": true
+        },
+        {
+            "name": "World Vector Logo",
+            "url": "https://worldvectorlogo.com/",
+            "description": "LOGO设计网站",
+            "category": "素材灵感",
+            "logoPath": "./img/world.png",
+            "popular": true
+        },
+        {
+            "name": "UI中国",
+            "url": "https://www.ui.cn/",
+            "description": "图形交互与界面设计交流、作品展示、学习平台。",
+            "category": "素材灵感",
+            "logoPath": "https://s6.ui.cn/img/yearlogo.png",
+            "popular": true
+        },
+        {
+            "name": "方正字库",
+            "url": "https://www.foundertype.com/",
+            "description": "海量字体资源",
+            "category": "素材灵感",
+            "logoPath": "./img/font.png",
+            "popular": true
+        },
+        {
+            "name": "100字体网",
+            "url": "https://www.100font.com/ ",
+            "description": "免费字体下载",
+            "category": "素材灵感",
+            "logoPath": "./img/100font.png",
+            "popular": true
+        },
+        {
+            "name": "高清壁纸",
+            "url": "https://www.hdwallpapers.net ",
+            "description": "wallpapers高清壁纸",
+            "category": "素材灵感",
+            "logoPath": "./img/paper.png",
+            "popular": true
+        },
+        {
+            "name": "花瓣网",
+            "url": "https://huaban.com/ ",
+            "description": "设计师灵感采集平台",
+            "category": "素材灵感",
+            "logoPath": "https://cdn.dancf.com/fe-assets/20250424/3277dc6bd2124e104a49b0a0b6a95997.svg",
+            "popular": true
+        },
+        {
+            "name": "站酷",
+            "url": "https://www.zcool.com.cn/",
+            "description": "设计师社区与作品展示",
+            "category": "素材灵感",
+            "logoPath": "./img/z.png",
+            "popular": true
+        },
+        {
+            "name": "Unsplash",
+            "url": "https://unsplash.com/",
+            "description": "免费高质量图片素材",
+            "category": "素材灵感",
+            "logoPath": "./img/unsplash.png",
+            "popular": true
+        },
+        {
+            "name": "Pixabay",
+            "url": "https://pixabay.com/ ",
+            "description": "免费图片、视频素材库",
+            "category": "素材灵感",
+            "logoPath": "https://cdn.pixabay.com/index/2025/07/14/12-57-16-804_1920x550.jpg",
+            "popular": true
+        },
+        {
+            "name": "Freepik",
+            "url": "https://www.freepik.com/ ",
+            "description": "免费矢量图与PSD素材",
+            "category": "素材灵感",
+            "logoPath": "./img/freepik.png",
+            "popular": true
+        },
+        {
+            "name": "iconfont",
+            "url": "https://www.iconfont.cn/",
+            "description": "阿里巴巴矢量图标库",
+            "category": "素材灵感",
+            "logoPath": "https://img.alicdn.com/imgextra/i2/O1CN01FF1t1g1Q3PDWpSm4b_!!6000000001920-55-tps-508-135.svg",
+            "popular": true
+        },
+        {
+            "name": "Mixkit",
+            "url": "https://mixkit.co/ ",
+            "description": "免费视频素材",
+            "category": "素材灵感",
+            "logoPath": "./img/mix.png",
+            "popular": true
+        },
+        {
+            "name": "Flaticon",
+            "url": "https://www.flaticon.com/",
+            "description": "免费图标素材",
+            "category": "素材灵感",
+            "logoPath": "./img/flat.png",
+            "popular": true
+        },
+        {
+            "name": "Pngtree",
+            "url": "https://pngtree.com/",
+            "description": "",
+            "category": "素材灵感",
+            "logoPath": "./img/tree.png",
+            "popular": true
+        },
+        {
+            "name": "乐乐课堂",
+            "url": "https://www.leleketang.com/",
+            "description": "含有自小学至高中各学科的知识课堂",
+            "category": "学科学习",
+            "logoPath": "./img/leleketang.png",
+            "popular": true
+        },
+        {
+            "name": "Geogebra画板",
+            "url": "https://www.geogebra.org/classic?lang=zh_CN",
+            "description": "实用几何画板",
+            "category": "学科学习",
+            "logoPath": "https://ts2.tc.mm.bing.net/th/id/OIP-C.S75CoMy9GgtKsMJN-NbtTwAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+            "popular": true
+        },
+        {
+            "name": "仿真实验",
+            "url": "https://phet.colorado.edu/zh_CN/",
+            "description": "物化地生数仿真实验模拟",
+            "category": "学科学习",
+            "logoPath": "./img/fangzhen.png",
+            "popular": true
+        },
+        {
+            "name": "NB物理实验",
+            "url": "https://wl-app.nobook.com/",
+            "description": "NB物理实验",
+            "category": "学科学习",
+            "logoPath": "https://ts1.tc.mm.bing.net/th/id/R-C.d3e43ebfaaa830779a2d8522d94f6b72?rik=E%2bNFaJDdoSw10A&riu=http%3a%2f%2fwww.nobook.com.cn%2fstatic%2fimages%2fwl_21.jpg&ehk=0wMl4lLIpKM5ayjoBQ%2bXszFMetUZ1py36YL%2b4I2lP%2bY%3d&risl=&pid=ImgRaw&r=0",
+            "popular": true
+        },
+        {
+            "name": "NB化学实验",
+            "url": "https://hx.nobook.com/console/templates/resource",
+            "description": "NB化学实验",
+            "category": "学科学习",
+            "logoPath": "https://ts1.tc.mm.bing.net/th/id/OIP-C.sruUTZt5fMsD0s0eZSzH4wHaEL?rs=1&pid=ImgDetMain&o=7&rm=3",
+            "popular": true
+        },
+        {
+            "name": "电子课本网",
+            "url": "http://www.dzkbw.com/",
+            "description": "含有学科教科书",
+            "category": "学科学习",
+            "logoPath": "./img/book1.png",
+            "popular": true
+        },
+        {
+            "name": "中小学教材电子版",
+            "url": "https://jc.pep.com.cn/",
+            "description": "含有各年级学科教材",
+            "category": "学科学习",
+            "logoPath": "https://jc.pep.com.cn/img/banner_pc.ad0278a1.png",
+            "popular": true
+        },
+        {
+            "name": "学而思网校",
+            "url": "https://www.xueersi.com/ ",
+            "description": "综合学科在线学习平台",
+            "category": "学科学习",
+            "logoPath": "https://talbook-cdn.oss-cn-beijing.aliyuncs.com/xueersi_web/web/home/logo.png",
+            "popular": true
+        },
+        {
+            "name": "中国大学MOOC",
+            "url": "https://www.icourse163.org/",
+            "description": "大学课程在线学习",
+            "category": "学科学习",
+            "logoPath": "https://edu-image.nosdn.127.net/3310f128e53b406f94400f7ae6046db2.png?imageView&quality=100",
+            "popular": true
+        },
+        {
+            "name": "Khan Academy",
+            "url": "https://zh.khanacademy.org/",
+            "description": "免费在线教育平台",
+            "category": "学科学习",
+            "logoPath": "./img/kh.png",
+            "popular": true
+        },
+        {
+            "name": "TED-Ed",
+            "url": "https://ed.ted.com/",
+            "description": "教育类动画视频",
+            "category": "学科学习",
+            "logoPath": "./img/ted.png",
+            "popular": true
+        },
+        {
+            "name": "edX",
+            "url": "https://www.edx.org/ ",
+            "description": "国际大学课程平台",
+            "category": "学科学习",
+            "logoPath": "./img/edx.png",
+            "popular": true
+        },
+        {
+            "name": "GZGJ实用工具",
+            "url": "https://redstonea.github.io/GZGJ-II.html",
+            "description": "B站某红石大佬字母哥带领604 Community开发的一个实用工具箱",
+            "category": "相关传送门",
+            "logoPath": "https://redstonea.github.io/GZGJ-II.webp",
+            "popular": true
+        },
+        {
+            "name": "赤石工具箱",
+            "url": "https://gitee.com/wsmdn/eat-redstone-nt ",
+            "description": "B站我是檬D柠基于eatredstonetools开发的新一代精神折磨工具",
+            "category": "相关传送门",
+            "logoPath": "./img/chishi.jpg",
+            "popular": true
+        },
+        {
+            "name": "檬D柠小破站",
+            "url": "https://wsmdn.github.io/",
+            "description": "MDN的资源站",
+            "category": "相关传送门",
+            "logoPath": "./img/mdnweb.png",
+            "popular": true
+        },
+        {
+            "name": "CSP-J初赛复赛资料",
+            "url": "https://github.com/uuplayer123/CSP-J-preparation-materials",
+            "description": "这里存有作者整合备赛资源，历年考点精选汇集",
+            "category": "相关传送门",
+            "logoPath": "./img/no1.png",
+            "popular": true
+        },
+        {
+            "name": "作者博客-敬请期待",
+            "url": "作者博客-敬请期待",
+            "description": "作者博客-敬请期待",
+            "category": "相关传送门",
+            "logoPath": "作者博客-敬请期待",
+            "popular": true
+        }
+    ]
+};
+        document.addEventListener('DOMContentLoaded', function() {
+            // 直接使用内嵌数据初始化
+            initializeWithEmbeddedData();
+            
+            // 搜索功能
+            const searchInput = document.getElementById('search');
+            searchInput.addEventListener('input', filterResources);
+            
+            // 返回顶部按钮
+            const backToTopBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            // 确保"全部"按钮有事件监听
+    const allButton = document.querySelector('.category-btn[data-category="all"]');
+    if (allButton) {
+        allButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('"全部"按钮被点击');
+            window.location = window.location.href;
+        });
+    }
+        });
+    
+        // 存储所有资源和分类
+        let allResources = [];
+        let allCategories = new Set();
+        
+        // 使用内嵌数据初始化
+        function initializeWithEmbeddedData() {
+            allResources = resourcesData.resources;
+            processResources(allResources);
+            
+            // 隐藏加载器
+            document.querySelector('.loader').style.display = 'none';
+            
+            // 生成热门资源
+            generatePopularResources();
+        }
+        
+        // 处理资源数据
+        // 处理资源数据
+        function processResources(resources) {
+            // 收集所有分类
+            allCategories.clear();
+            resources.forEach(resource => {
+                if (resource.category) {
+                    allCategories.add(resource.category);
+                }
+            });
+            
+            // 生成分类按钮
+            generateCategoryButtons();
+            
+            // 生成资源卡片
+            generateResourceCards(resources);
+        }
+        
+        // 生成分类按钮
+        function generateCategoryButtons() {
+            const categoriesContainer = document.querySelector('.categories');
+            
+            // 清空现有的分类按钮（保留"全部"按钮）
+            const allButton = categoriesContainer.querySelector('[data-category="all"]');
+            categoriesContainer.innerHTML = '';
+            categoriesContainer.appendChild(allButton);
+            
+            // 添加其他分类按钮
+            allCategories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'category-btn';
+                button.textContent = category;
+                button.dataset.category = category;
+                button.addEventListener('click', function(e) {
+                    console.log('分类按钮被点击:', category); // 添加这行
+                    filterByCategory(e);
+                });
+                categoriesContainer.appendChild(button);
+            });
+        }
+        
+        // 生成资源卡片
+        function generateResourceCards(resources) {
+            const container = document.getElementById('resources-container');
+            
+            // 清空容器（保留loader）
+            const loader = container.querySelector('.loader');
+            container.innerHTML = '';
+            if (loader) container.appendChild(loader);
+            
+            if (resources.length === 0) {
+                container.innerHTML = '<div class="no-results"><i class="fas fa-search" style="font-size: 2rem; margin-bottom: 15px;"></i><h3>没有找到匹配的资源</h3><p>尝试使用不同的搜索词或选择其他分类</p></div>';
+                return;
+            }
+            
+            resources.forEach(resource => {
+                const card = document.createElement('div');
+                card.className = 'resource-card';
+                
+                // 设置卡片数据属性以便搜索和过滤
+                card.dataset.name = resource.name.toLowerCase();
+                card.dataset.description = resource.description.toLowerCase();
+                card.dataset.category = resource.category ? resource.category.toLowerCase() : '';
+                
+                // 构建卡片内容
+                card.innerHTML = `
+                    <div class="logo-container">
+                        <img src="${resource.logoPath || 'https://via.placeholder.com/150?text=LOGO'}" alt="${resource.name} Logo" loading="lazy">
+                    </div>
+                    <div class="info">
+                        <h3>${resource.name}</h3>
+                        <p>${resource.description}</p>
+                        <a href="${resource.url}" target="_blank" class="visit-btn">访问网站</a>
+                    </div>
+                    ${resource.category ? `<span class="category-tag">${resource.category}</span>` : ''}
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // 生成热门资源列表
+        function generatePopularResources() {
+            const popularContainer = document.getElementById('popular-resources');
+            const popularResources = allResources.filter(resource => resource.popular);
+            
+            popularResources.forEach(resource => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <a href="${resource.url}" target="_blank">
+                        <i class="fas fa-link"></i> ${resource.name}
+                    </a>
+                `;
+                popularContainer.appendChild(li);
+            });
+        }
+        
+        // 按分类过滤资源
+        function filterByCategory(e) {
+            e.preventDefault();
+            const category = e.target.dataset.category;
+            
+            // 如果是"全部"分类，则刷新页面
+            if (category === 'all') {
+                window.location = window.location.href;
+                return false;
+            }
+            
+            // 更新活动按钮状态
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            e.target.classList.add('active');
+            
+            // 过滤资源
+            const filteredResources = allResources.filter(resource => 
+                resource.category === category
+            );
+            
+            generateResourceCards(filteredResources);
+            
+            // 重置搜索框
+            document.getElementById('search').value = '';
+            
+            return false;
+        }
+        
+        // 搜索和过滤资源
+        function filterResources() {
+            const searchTerm = this.value.toLowerCase();
+            
+            if (!searchTerm) {
+                // 如果没有搜索词，显示当前分类的资源
+                const activeCategory = document.querySelector('.category-btn.active');
+                if (activeCategory.dataset.category === 'all') {
+                    generateResourceCards(allResources);
+                } else {
+                    const filteredResources = allResources.filter(resource => 
+                        resource.category === activeCategory.dataset.category
+                    );
+                    generateResourceCards(filteredResources);
+                }
+                return;
+            }
+            
+            const filteredResources = allResources.filter(resource => {
+                return (
+                    resource.name.toLowerCase().includes(searchTerm) ||
+                    resource.description.toLowerCase().includes(searchTerm) ||
+                    (resource.category && resource.category.toLowerCase().includes(searchTerm))
+                );
+            });
+            
+            generateResourceCards(filteredResources);
+            
+            // 重置分类按钮状态
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('[data-category="all"]').classList.add('active');
+        }
+    </script>
+</body>
+</html>
